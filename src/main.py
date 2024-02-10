@@ -16,10 +16,9 @@ Path('../logs/').mkdir(exist_ok=True)
 logging.basicConfig(filename=f'../logs/{time.strftime("%d-%m-%Y")}.log', encoding='utf-8', level=logging.INFO,
                     format='%(asctime)s [%(levelname)-8s] %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
 
-# TODO: Handle not finding images
 api_key = os.getenv('OPENAI_KEY')
 excel_path = os.getenv('EXCEL_PATH')
-image_path = "../data/asda.jpeg"
+image_path = Path("../data/tesco_4.jpeg")
 categories = get_categories(excel_path)
 
 
@@ -29,7 +28,6 @@ def main():
         response = gpt4_vision(api_key, image_path, categories)
         pbar.update(1)
 
-        # TODO: Why is this necessary
         if response is None:
             return
         output = parse_gpt_response(response)
@@ -39,6 +37,8 @@ def main():
         # TODO: Handle returns consistently. Sometimes returns None, sometimes str
         if add_to_excel(excel_path, output):
             logging.info('Data added back to Excel successfully')
+        else:
+            logging.error('Error returned while adding data to Excel. Check logs')
         pbar.update(1)
 
 

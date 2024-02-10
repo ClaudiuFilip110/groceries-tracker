@@ -17,7 +17,6 @@ def encode_image(image_path):
 def parse_gpt_response(response):
     try:
         logging.info(f"Parsing GPT4 response: {response}")
-        # TODO: Remove hardcoded values
         model_used = response['model']
         input_price = (response['usage']['prompt_tokens']) / 1000 * 0.01
         output_price = (response['usage']['completion_tokens']) / 1000 * 0.03
@@ -49,7 +48,6 @@ def extract_json(input_string):
 
 
 def get_current_month():
-    # TODO: Error handling
     now = datetime.now()
     formatted_date = now.strftime("%b %Y").upper()
     return formatted_date
